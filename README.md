@@ -13,7 +13,7 @@ Then run
 Wrote nogaalon-2022-02-01.bib
 ```
 
-Inspecting that file gives 30 articles, the top being
+Inspecting that file gives 688 articles, the top being
 
 
 ```bibtex
