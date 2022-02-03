@@ -1,20 +1,41 @@
 from requests import get  # to make GET request
 from datetime import datetime as dt
 
-URL = "http://dblp.org/search/publ/api?q=author:%s:&format=bib"
+URL_B = "http://dblp.org/search/publ/api?"
+URL_Q = "q=author:{author}:&format={extension}&h={hits}&f={first}"
+URL = URL_B + URL_Q
+DEBUG = False
 
 
-def download(url, file_name):
+def _get_url(author=None, extension="bib", hits=100, first=0):
+    if not author:
+        raise ValueError("Provide author")
+    return URL.format(
+        author=author, extension=extension, hits=hits, first=first
+    )
+
+
+def download(author, file_name):
+    first = 0
+    hits = 100
     with open(file_name, "wb") as fout:
-        response = get(url)
-        fout.write(response.content)
+        while first < 3000:  # HARD UPPER LIMIT to save dblp
+            url = _get_url(author=author, first=first, hits=hits)
+            if DEBUG:
+                print(f"wget {url}")
+            response = get(url)
+            first += hits
+            if response.status_code == 200 and response.content:
+                fout.write(response.content)
+            else:
+                break
 
 
 def process(name):
     slug = ''.join(list(filter(str.isalnum, name.strip()))).lower()
     now = dt.now().strftime("%Y-%m-%d")
     fname = f"{slug}-{now}.bib"
-    download(URL % name, fname)
+    download(name, fname)
     print(f"Wrote {fname}")
 
 
