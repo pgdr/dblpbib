@@ -1,9 +1,9 @@
 from setuptools import setup
 setup(
-    version="0.0.1",
+    version="0.0.2",
     name="dblpbib",
     packages=["dblpbib"],
-    descriptiong="get a bib file",
+    description="Download all bibtex references for provided author",
     author="PG Drange",
     author_email="Pal.Drange@uib.no",
     entry_points = {
