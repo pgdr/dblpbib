@@ -33,7 +33,7 @@ def download(author, file_name):
 
 
 def process(name):
-    slug = ''.join(list(filter(str.isalnum, name.strip()))).lower()
+    slug = "".join(list(filter(str.isalnum, name.strip()))).lower()
     now = dt.now().strftime("%Y-%m-%d")
     fname = f"{slug}-{now}.bib"
     download(name, fname)
