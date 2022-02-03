@@ -1,3 +1,4 @@
+import sys
 from requests import get  # to make GET request
 from datetime import datetime as dt
 
@@ -39,13 +40,18 @@ def process(name):
     print(f"Wrote {fname}")
 
 
+def _exit_with_usage(code=1):
+    print("Usage: dblpbib Firstname [Middlename] Lastname")
+    sys.exit(code)
+
+
 def main():
+    if "--help" in sys.argv or "-h" in sys.argv:
+        _exit_with_usage(code=0)
+    if len(sys.argv) < 2:
+        _exit_with_usage()
+    process(" ".join(sys.argv[1:]))
 
-    from sys import argv
-
-    if len(argv) < 2:
-        exit("Usage: dblpbib Firstname [Middlename] Lastname")
-    process(" ".join(argv[1:]))
 
 if __name__ == "__main__":
     main()
